@@ -1,0 +1,29 @@
+version: "3"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./postgres_data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: on-failure
+
+  api:
+    build: 
+        dockerfile: Django.dockerfile
+        context: .
+    #command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./api:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+    restart: on-failure
