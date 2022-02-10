@@ -1,0 +1,11 @@
+form {
+  box-shadow: 0 0 10px #ddd;
+  border-radius: 5px;
+  margin: 10px auto;
+  width: 500px;
+  padding: 20px;
+}
+
+form > * {
+  margin: 10px 0;
+}

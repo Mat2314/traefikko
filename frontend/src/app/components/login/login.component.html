@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-around">
+  <form [formGroup]="loginForm">
+    <h4 class="text-center">Login here</h4>
+
+    <input
+      formControlName="username"
+      type="text"
+      class="form-control"
+      placeholder="Login">
+
+    <input
+      formControlName="password"
+      type="password"
+      class="form-control"
+      placeholder="Password">
+
+
+    <div class="text-center">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        (click)="login()"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+</div>

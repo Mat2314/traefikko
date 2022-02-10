@@ -1,0 +1,68 @@
+<div class="w-100 d-flex justify-content-end">
+  <button
+    (click)="logout()"
+    class="btn btn-outline-dark">
+    Logout</button>
+
+</div>
+
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Preview</th>
+      <th scope="col">Price</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let book of elements; index as i">
+      <td> {{book.title}} </td>
+      <td>{{ book.preview}}</td>
+      <td>{{ book.price }}</td>
+      <td>
+        <button
+          (click)="removeElement(book.id)"
+          class="btn btn-sm btn-danger">Usuń
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <hr/>
+
+  <h4 class="text-center">Add a new book</h4>
+  <form [formGroup]="bookForm">
+    <input
+      class="form-control"
+      formControlName="title"
+      placeholder="Title"
+      type="text"
+    >
+
+    <input
+      class="form-control"
+      formControlName="preview"
+      placeholder="A little preview"
+      type="text"
+    >
+
+    <input
+      class="form-control"
+      formControlName="price"
+      placeholder="10 EUR"
+      type="number"
+    >
+
+    <div class="text-center">
+      <button
+        (click)="addElement()"
+        type="submit"
+        class="btn btn-sm btn-primary"
+      >Add book</button>
+    </div>
+  </form>
+
+</div>
