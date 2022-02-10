@@ -38,7 +38,7 @@ services:
 
   api:
     build:
-        dockerfile: docker/Django.Dockerfile
+        dockerfile: Django.Dockerfile
         context: .
     volumes:
       - ./api:/code
@@ -63,7 +63,7 @@ services:
 
   frontend:
     build:
-      dockerfile: docker/Frontend.Dockerfile
+      dockerfile: Frontend.Dockerfile
       context: .
 #    ports:
 #      - "8123:80"
