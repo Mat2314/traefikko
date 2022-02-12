@@ -79,6 +79,15 @@ services:
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.frontend.entrypoints=websecure"
 
+  staticfiles:
+    build:
+      dockerfile: Staticfiles.Dockerfile
+      context: .
+    networks:
+      - traefik-network
+    depends_on:
+      - api
+
 volumes:
   traefik-public-certificates:
 

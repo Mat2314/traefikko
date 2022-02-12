@@ -80,5 +80,20 @@ services:
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
       - traefik.docker.network=traefik-network
 
+  staticfiles:
+    build:
+      dockerfile: Staticfiles.Dockerfile
+      context: .
+    networks:
+      - traefik-network
+    depends_on:
+      - api
+#    labels:
+#        - "traefik.enable=true"
+#        - "traefik.http.routers.staticfiles.rule=Host(`${STATICFILES_HOST}`)"
+#        - "traefik.http.routers.staticfiles.entrypoints=web"
+#        - "traefik.http.services.staticfiles.loadbalancer.server.port=80"
+#        - traefik.docker.network=traefik-network
+
 networks:
   traefik-network:
