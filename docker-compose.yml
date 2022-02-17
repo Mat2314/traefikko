@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./postgres_data/db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - private
     environment:
@@ -82,3 +82,6 @@ networks:
   private:
   traefik_webgateway:
     external: true
+
+volumes:
+  postgres_data:

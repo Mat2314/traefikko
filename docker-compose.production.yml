@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./postgres_data/db:/var/lib/postgresql/data
+      - postgres_data/db:/var/lib/postgresql/data
     networks:
       - private
     environment:
@@ -20,8 +20,8 @@ services:
 
   api:
     build:
-        dockerfile: Django.Dockerfile
-        context: .
+      dockerfile: Django.Dockerfile
+      context: .
     volumes:
       - ./api:/code
     expose:
@@ -85,3 +85,10 @@ services:
       - "traefik.http.services.staticfiles.loadbalancer.server.port=80"
       - "traefik.docker.network=traefik_webgateway"
 
+networks:
+  private:
+  traefik_webgateway:
+    external: true
+
+volumes:
+  postgres_data:
