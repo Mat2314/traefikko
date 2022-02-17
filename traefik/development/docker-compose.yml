@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  traefik:
+    build:
+      context: .
+      dockerfile: Traefik.Dockerfile
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - 8080:8080
+      - 80:80
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - traefik_webgateway
+    restart: always
+
+networks:
+  traefik_webgateway:
+    external: true

@@ -1,25 +1,12 @@
 version: "3"
 
 services:
-  traefik:
-    build:
-      context: .
-      dockerfile: Traefik.Dockerfile
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./traefik-public-certificates:/certificates"
-    networks:
-      - traefik-network
-
   db:
     image: postgres
     volumes:
       - ./postgres_data/db:/var/lib/postgresql/data
     networks:
-      - traefik-network
+      - private
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
@@ -40,7 +27,8 @@ services:
     expose:
       - 8000
     networks:
-      - traefik-network
+      - traefik_webgateway
+      - private
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
@@ -54,7 +42,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.django.rule=Host(`${API_HOST}`)"
       - "traefik.http.services.django.loadbalancer.server.port=8000"
-      - "traefik.docker.network=traefik-network"
+      - "traefik.docker.network=traefik_webgateway"
       # HTTPS configuration
       - "traefik.http.routers.django.tls=true"
       - "traefik.http.routers.django.tls.certresolver=letsencrypt"
@@ -65,15 +53,17 @@ services:
       dockerfile: Frontend.Dockerfile
       context: .
     networks:
-      - traefik-network
+      - traefik_webgateway
+      - private
     depends_on:
       - api
+    restart: on-failure
     labels:
       # Standard configuration
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${APP_HOST}`)"
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
-      - "traefik.docker.network=traefik-network"
+      - "traefik.docker.network=traefik_webgateway"
       # HTTPS configuration
       - "traefik.http.routers.frontend.tls=true"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
@@ -84,19 +74,14 @@ services:
       dockerfile: Staticfiles.Dockerfile
       context: .
     networks:
-      - traefik-network
+      - traefik_webgateway
     depends_on:
       - api
+    restart: on-failure
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.staticfiles.rule=Host(`${STATICFILES_HOST}`)"
       - "traefik.http.routers.staticfiles.entrypoints=web"
       - "traefik.http.services.staticfiles.loadbalancer.server.port=80"
-      - traefik.docker.network=traefik-network
+      - "traefik.docker.network=traefik_webgateway"
 
-
-volumes:
-  traefik-public-certificates:
-
-networks:
-  traefik-network:
