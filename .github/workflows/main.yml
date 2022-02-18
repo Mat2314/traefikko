@@ -26,4 +26,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           # port: ${{ secrets.PORT }}
-          script: sh /home/mati/git/traefikko/deploy.sh
+          script: sh /home/mati/deployment_scripts/deploy.sh
